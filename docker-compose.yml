@@ -38,10 +38,18 @@ services:
         image: redis
 
     rabbitmq:
-        image: rabbitmq:3-management-alpine
+        image: rabbitmq:3-management
         container_name: rabbitmq
+        environment:
+            RABBITMQ_ERLANG_COOKIE: "SWQODSQALRPCLNMEQG"
+            RABBITMQ_DEFAULT_USER: "rabbitmq"
+            RABBITMQ_DEFAULT_PASS: "rabbitmq"
+            RABBITMQ_DEFAULT_VHOST: "/"
         ports:
+            - "15672:15672"
             - "5672:5672"
+        networks:
+            - video_transcription
 
     transcription_service:
         container_name: transcription_service
