@@ -1,0 +1,68 @@
+version: '3'
+services:
+    mysqlsrv:
+        image: mysql:8.0.32
+        environment:
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_DATABASE: "video_transcription"
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./.docker/mysql/data:/var/lib/mysql
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: 'rabbitmq'
+        ports:
+            - "5672:5672"
+    transcription_service:
+        build:
+            context: ./
+            dockerfile: .docker/Dockerfile
+        container_name: transcription_service
+        image: app
+        volumes:
+            - ./upload-service:/var/www/html/
+            - ~/.ssh/id_rsa:/home/user/.ssh/id_rsa
+            - ~/.ssh/id_rsa.pub:/home/user/.ssh/id_rsa.pub
+            - ~/.ssh/known_hosts:/home/user/.ssh/known_hosts
+        networks:
+            - video_transcription
+        ports:
+            - "8001:8001"
+    upload_service:
+        build:
+            context: ./
+            dockerfile: .docker/Dockerfile
+        container_name: upload_service
+        image: app
+        volumes:
+            - ./upload-service:/var/www/html/
+            - ~/.ssh/id_rsa:/home/user/.ssh/id_rsa
+            - ~/.ssh/id_rsa.pub:/home/user/.ssh/id_rsa.pub
+            - ~/.ssh/known_hosts:/home/user/.ssh/known_hosts
+        networks:
+            - video_transcription
+        ports:
+            - "8002:8002"
+    email_service:
+        build:
+            context: ./
+            dockerfile: .docker/Dockerfile
+        container_name: email_service
+        image: app
+        volumes:
+            - ./upload-service:/var/www/html/
+            - ~/.ssh/id_rsa:/home/user/.ssh/id_rsa
+            - ~/.ssh/id_rsa.pub:/home/user/.ssh/id_rsa.pub
+            - ~/.ssh/known_hosts:/home/user/.ssh/known_hosts
+        networks:
+            - video_transcription
+        ports:
+            - "8003:8003"
+    redis:
+        image: redis
+        networks:
+            - video_transcription
+networks:
+    video_transcription:
+        driver: bridge
