@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Email\Messaging\Facades;
 
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static channel(string $channel = 'default'): IMessage
  * @method static publish(string $message, string $routingKey = ''): void
- * @method static consume(\Closure $callback): mixed
+ * @method static consume(\Closure $callback, string $consumerTag = '', bool $noAck = true, bool $noWait = false): mixed
  */
 class Messaging extends Facade
 {

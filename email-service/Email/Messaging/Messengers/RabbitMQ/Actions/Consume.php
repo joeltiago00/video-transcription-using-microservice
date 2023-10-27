@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Email\Messaging\Messengers\RabbitMQ\Actions;
 
@@ -11,10 +11,10 @@ class Consume
     {
     }
 
-    public function handle(Closure $callback, string $queue): mixed
+    public function handle(Closure $callback, string $queue, string $consumerTag, bool $noAck, bool $noWait): void
     {
         $this->connection
             ->channel()
-            ->basicConsume($callback, $queue);
+            ->basicConsume($callback, $queue, $consumerTag, $noAck, $noWait);
     }
 }

@@ -21,16 +21,16 @@ class RabbitMQConnection
         return $this;
     }
 
-    public function exchangeDeclare(string $exchange): self
+    public function exchangeDeclare(string $exchange, string $type, bool $isPassive, bool $isDurable, bool $isAutoDelete): self
     {
-        $this->channel->exchange_declare($exchange, 'direct', false, true, false);
+        $this->channel->exchange_declare($exchange, $type, $isPassive, $isDurable, $isAutoDelete);
 
         return $this;
     }
 
-    public function queueDeclare(string $queue): self
+    public function queueDeclare(string $queue, bool $isPassive, bool $isDurable, bool $isAutoDelete): self
     {
-        $this->channel->queue_declare($queue, false, true, false, false);
+        $this->channel->queue_declare($queue, $isPassive, $isDurable, $isAutoDelete);
 
         return $this;
     }
@@ -49,9 +49,9 @@ class RabbitMQConnection
         $this->endConnection();
     }
 
-    public function basicConsume(Closure $callback, string $queue): void
+    public function basicConsume(Closure $callback, string $queue, string $consumerTag, bool $noAck, bool $noWait): void
     {
-        $this->channel->basic_consume($queue, '', false, true, false, false, $callback);
+        $this->channel->basic_consume($queue, $consumerTag, false, $noAck, false, $noWait, $callback);
 
         do {
             $this->channel->wait();

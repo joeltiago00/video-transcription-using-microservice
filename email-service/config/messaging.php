@@ -13,8 +13,19 @@ return [
             'vhost' => env('RABBITMQ_VHOST', '/'),
             'channels' => [
                 'default' => [
-                    'exchange' => env('RABBITMQ_EXCHANGE', 'email_service'),
-                    'queue' => env('RABBITMQ_QUEUE', 'email_queue')
+                    'exchange' => [
+                        'name' => env('RABBITMQ_EXCHANGE_NAME', 'email_service'),
+                        'type' => env('RABBITMQ_EXCHANGE_TYPE', 'direct'),
+                        'is_passive' => env('RABBITMQ_EXCHANGE_PASSIVE', false),
+                        'is_durable' => env('RABBITMQ_EXCHANGE_DURABLE', true),
+                        'is_auto_delete' => env('RABBITMQ_EXCHANGE_AUTO_DELETE', false),
+                    ],
+                    'queue' => [
+                        'name' => env('RABBITMQ_QUEUE_NAME', 'email_queue'),
+                        'is_passive' => env('RABBITMQ_QUEUE_PASSIVE', false),
+                        'is_durable' => env('RABBITMQ_QUEUE_DURABLE', true),
+                        'is_auto_delete' => env('RABBITMQ_QUEUE_AUTO_DELTE', false),
+                    ]
                 ],
             ]
         ],

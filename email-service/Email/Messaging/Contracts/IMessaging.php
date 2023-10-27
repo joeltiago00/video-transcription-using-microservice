@@ -10,5 +10,5 @@ interface IMessaging
 
     public function publish(string $message, string $routingKey = ''): void;
 
-    public function consume(Closure $callback): mixed;
+    public function consume(Closure $callback, string $consumerTag = '', bool $noAck = true, bool $noWait = false): void;
 }

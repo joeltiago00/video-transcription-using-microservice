@@ -8,6 +8,8 @@ use Email\Messaging\Factory\Factories\RabbitMQ\RabbitMQConnection;
 use Email\Messaging\MessagingConfig;
 use Email\Messaging\Messengers\RabbitMQ\Actions\Consume;
 use Email\Messaging\Messengers\RabbitMQ\Actions\Publish;
+use Email\Messaging\Messengers\RabbitMQ\DTO\ExchangeConfig;
+use Email\Messaging\Messengers\RabbitMQ\DTO\QueueConfig;
 
 class RabbitMQ implements IMessaging
 {
@@ -37,15 +39,36 @@ class RabbitMQ implements IMessaging
 
         $this->publish->handle(
             $message,
-            $this->getConfigByKey('exchange'),
-            $this->getConfigByKey('queue'),
             $routingKey,
+            $this->getExchangeConfig(),
+            $this->getQueueConfig()
         );
     }
 
-    public function consume(Closure $callback): mixed
+    public function consume(Closure $callback, string $consumerTag = '', bool $noAck = true, bool $noWait = false): void
     {
-        return $this->consume->handle($callback, $this->getConfigByKey('queue'));
+        $this->consume->handle($callback, $this->getConfigByKey('queue'), $consumerTag, $noAck, $noWait);
+    }
+
+    private function getExchangeConfig(): ExchangeConfig
+    {
+        return new ExchangeConfig(
+            $this->getConfigByKey('exchange.name'),
+            $this->getConfigByKey('exchange.type'),
+            (bool)$this->getConfigByKey('exchange.is_passive'),
+            (bool)$this->getConfigByKey('exchange.is_durable'),
+            (bool)$this->getConfigByKey('exchange.is_auto_delete'),
+        );
+    }
+
+    private function getQueueConfig(): QueueConfig
+    {
+        return new QueueConfig(
+            $this->getConfigByKey('queue.name'),
+            (bool)$this->getConfigByKey('queue.is_passive'),
+            (bool)$this->getConfigByKey('queue.is_durable'),
+            (bool)$this->getConfigByKey('queue.is_auto_delete'),
+        );
     }
 
     private function getConfigByKey(string $key): string
