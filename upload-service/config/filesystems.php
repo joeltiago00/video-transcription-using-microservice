@@ -8,12 +8,12 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default filesystem disk that should be used
-    | by the framework. The "local" disk, as well as a variety of cloud
+    | by the framework. The "transcription-service" disk, as well as a variety of cloud
     | based disks are available to your application. Just store away!
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'transcription-service'),
 
     /*
     |--------------------------------------------------------------------------
@@ -24,20 +24,20 @@ return [
     | may even configure multiple disks of the same driver. Defaults have
     | been set up for each driver as an example of the required values.
     |
-    | Supported Drivers: "local", "ftp", "sftp", "s3"
+    | Supported Drivers: "transcription-service", "ftp", "sftp", "s3"
     |
     */
 
     'disks' => [
 
-        'local' => [
-            'driver' => 'local',
+        'transcription-service' => [
+            'driver' => 'transcription-service',
             'root' => storage_path('app'),
             'throw' => false,
         ],
 
         'public' => [
-            'driver' => 'local',
+            'driver' => 'transcription-service',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',

@@ -1,2 +1,4 @@
-/.docker/mysql/data
+/.docker/mysql/email_data
+/.docker/mysql/transcription_data
+/.docker/mysql/upload_data
 /.idea
