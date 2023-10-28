@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'transcription-service'),
+    'default' => env('FILESYSTEM_DISK', 's3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,15 +30,23 @@ return [
 
     'disks' => [
 
-        'transcription-service' => [
-            'driver' => 'transcription-service',
+        'local' => [
+            'driver' => 'local',
             'root' => storage_path('app'),
             'throw' => false,
         ],
 
         'public' => [
-            'driver' => 'transcription-service',
+            'driver' => 'local',
             'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'test' => [
+            'driver' => 'local',
+            'root' => storage_path('test'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
