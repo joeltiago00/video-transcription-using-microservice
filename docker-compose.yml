@@ -10,6 +10,8 @@ services:
             - "3306:3306"
         volumes:
             - ./.docker/mysql/transcription_data:/var/lib/mysql
+        networks:
+            - video_transcription
 
     upload_db:
         container_name: upload_db
@@ -21,6 +23,8 @@ services:
             - "3307:3306"
         volumes:
             - ./.docker/mysql/upload_data:/var/lib/mysql
+        networks:
+            - video_transcription
 
     email_db:
         container_name: email_db
@@ -32,6 +36,8 @@ services:
             - "3308:3306"
         volumes:
             - ./.docker/mysql/email_data:/var/lib/mysql
+        networks:
+            - video_transcription
 
     redis:
         container_name: redis
