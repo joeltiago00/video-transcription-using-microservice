@@ -1,6 +1,6 @@
 <?php
 
-namespace Email\Messaging\Messengers\RabbitMQ\DTO;
+namespace Upload\Messaging\Messengers\RabbitMQ\DTO;
 
 class ExchangeConfig
 {

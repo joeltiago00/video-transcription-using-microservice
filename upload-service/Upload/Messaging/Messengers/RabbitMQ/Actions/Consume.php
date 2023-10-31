@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Email\Messaging\Messengers\RabbitMQ\Actions;
+namespace Upload\Messaging\Messengers\RabbitMQ\Actions;
 
 use Closure;
-use Email\Messaging\Factory\Factories\RabbitMQ\RabbitMQConnection;
+use Upload\Messaging\Factory\Factories\RabbitMQ\RabbitMQConnection;
 
 class Consume
 {
