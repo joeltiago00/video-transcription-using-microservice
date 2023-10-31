@@ -1,20 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace Email\Messaging\Messengers\RabbitMQ;
+namespace Upload\Messaging\Messengers\RabbitMQ;
 
 use Closure;
-use Email\Messaging\Contracts\IMessaging;
-use Email\Messaging\Factory\Factories\RabbitMQ\RabbitMQConnection;
-use Email\Messaging\MessagingConfig;
-use Email\Messaging\Messengers\RabbitMQ\Actions\Consume;
-use Email\Messaging\Messengers\RabbitMQ\Actions\Publish;
-use Email\Messaging\Messengers\RabbitMQ\DTO\ExchangeConfig;
-use Email\Messaging\Messengers\RabbitMQ\DTO\QueueConfig;
+use Upload\Messaging\Contracts\IMessaging;
+use Upload\Messaging\Factory\Factories\RabbitMQ\RabbitMQConnection;
+use Upload\Messaging\Messaging as AbstractMessaging;
+use Upload\Messaging\Messengers\RabbitMQ\Actions\Consume;
+use Upload\Messaging\Messengers\RabbitMQ\Actions\Publish;
+use Upload\Messaging\Messengers\RabbitMQ\DTO\ExchangeConfig;
+use Upload\Messaging\Messengers\RabbitMQ\DTO\QueueConfig;
 
-class RabbitMQ implements IMessaging
+class RabbitMQ extends AbstractMessaging implements IMessaging
 {
-    private array $configChannels;
-    private string $channel = MessagingConfig::DEFAULT_CHANNEL;
+    private string $channel = AbstractMessaging::DEFAULT_CHANNEL;
     private Publish $publish;
     private Consume $consume;
 
@@ -22,7 +21,6 @@ class RabbitMQ implements IMessaging
         private readonly RabbitMQConnection $connection,
     )
     {
-        $this->configChannels = config('messaging.connections.rabbitmq.channels');
         $this->publish = new Publish($this->connection);
         $this->consume = new Consume($this->connection);
     }
@@ -71,8 +69,8 @@ class RabbitMQ implements IMessaging
         );
     }
 
-    private function getConfigByKey(string $key): string
+    private function getConfigByKey(string $key): mixed
     {
-        return $this->configChannels[$this->channel][$key];
+        return config(sprintf('messaging.connections.rabbitmq.channels.%s.%s', $this->channel, $key));
     }
 }

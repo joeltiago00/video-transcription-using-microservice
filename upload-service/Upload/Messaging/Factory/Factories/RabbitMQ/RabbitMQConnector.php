@@ -1,6 +1,6 @@
 <?php
 
-namespace Email\Messaging\Factory\Factories\RabbitMQ;
+namespace Upload\Messaging\Factory\Factories\RabbitMQ;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 

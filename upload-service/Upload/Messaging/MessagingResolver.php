@@ -1,14 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace Email\Messaging;
+namespace Upload\Messaging;
 
-use Email\Messaging\Contracts\IMessaging;
-use Email\Messaging\Factory\MessagingFactory;
+use Upload\Messaging\Contracts\IMessaging;
+use Upload\Messaging\Factory\MessagingFactory;
+use Upload\Messaging\Factory\MessagingFakeFactory;
 
 class MessagingResolver
 {
     public static function resolve(): IMessaging
     {
-        return MessagingFactory::create(config('messaging.default'));
+        $defaultService = config('messaging.default');
+
+        if (Messaging::$isFake) {
+            return MessagingFakeFactory::create($defaultService);
+        }
+
+        return MessagingFactory::create($defaultService);
     }
 }

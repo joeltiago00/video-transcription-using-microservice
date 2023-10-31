@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Email\Messaging\Factory\Factories\RabbitMQ;
+namespace Upload\Messaging\Factory\Factories\RabbitMQ;
 
-use Email\Messaging\Contracts\IMessaging;
-use Email\Messaging\Contracts\IMessagingFactory;
-use Email\Messaging\Messengers\RabbitMQ\RabbitMQ;
+use Upload\Messaging\Contracts\IMessaging;
+use Upload\Messaging\Contracts\IMessagingFactory;
+use Upload\Messaging\Messengers\RabbitMQ\RabbitMQ;
 
 class RabbitMQFactory implements IMessagingFactory
 {

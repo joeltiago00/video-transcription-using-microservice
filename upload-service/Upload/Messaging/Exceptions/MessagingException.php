@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Email\Messaging\Exceptions;
+namespace Upload\Messaging\Exceptions;
 
 use Exception;
 use Symfony\Component\HttpFoundation\Response;

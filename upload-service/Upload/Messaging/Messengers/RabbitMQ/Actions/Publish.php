@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Email\Messaging\Messengers\RabbitMQ\Actions;
+namespace Upload\Messaging\Messengers\RabbitMQ\Actions;
 
-use Email\Messaging\Factory\Factories\RabbitMQ\RabbitMQConnection;
-use Email\Messaging\Messengers\RabbitMQ\DTO\ExchangeConfig;
-use Email\Messaging\Messengers\RabbitMQ\DTO\QueueConfig;
+use Upload\Messaging\Factory\Factories\RabbitMQ\RabbitMQConnection;
+use Upload\Messaging\Messengers\RabbitMQ\DTO\ExchangeConfig;
+use Upload\Messaging\Messengers\RabbitMQ\DTO\QueueConfig;
 
 class Publish
 {

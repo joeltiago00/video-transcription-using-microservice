@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Email\Messaging\Factory\Factories\RabbitMQ;
+namespace Upload\Messaging\Factory\Factories\RabbitMQ;
 
 use Closure;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
