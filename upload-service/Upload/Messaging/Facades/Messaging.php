@@ -6,7 +6,7 @@ use Upload\Messaging\Messaging as AbstractMessaging;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static channel(string $channel = 'default'): IMessage
+ * @method static channel(string $channel = 'upload'): IMessage
  * @method static publish(string $message, string $routingKey = ''): void
  * @method static consume(\Closure $callback, string $consumerTag = '', bool $noAck = true, bool $noWait = false): void
  * @method static fake(): void

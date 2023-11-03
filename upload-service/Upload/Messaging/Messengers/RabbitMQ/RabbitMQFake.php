@@ -8,7 +8,7 @@ use Upload\Messaging\Contracts\IMessaging;
 class RabbitMQFake implements IMessaging
 {
 
-    public function channel(string $channel = 'default'): IMessaging
+    public function channel(string $channel = 'upload'): IMessaging
     {
         return $this;
     }

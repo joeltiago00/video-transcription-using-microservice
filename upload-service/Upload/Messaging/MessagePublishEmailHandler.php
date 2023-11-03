@@ -10,22 +10,16 @@ class MessagePublishEmailHandler
 {
     public static function handle(): void
     {
-        $payloads = Cache::get(CacheEnum::EMAIL->key());
-
-        if (!is_array(current($payloads))) {
-            self::publish($payloads, $payloads['routing_key']);
-
-            return;
-        }
-
-
-        foreach ($payloads as $payload) {
-            self::publish($payload, $payload['routing_key']);
-        }
+        $data = Cache::get(CacheEnum::EMAIL->key());
+dd($data);
+        collect($data)->groupBy('channel')
+            ->each(fn ($payloads, $channel) => self::publish($channel, $payloads->toArray()));
     }
 
-    private static function publish(array $payload, string $routingKey): void
+    private static function publish(string $channel, array $payloads): void
     {
-        Messaging::publish(json_encode($payload), $routingKey);
+        collect($payloads)->each(function ($payload) use ($channel) {
+            Messaging::channel($channel)->publish(json_encode($payload), $payload['routing_key']);
+        });
     }
 }

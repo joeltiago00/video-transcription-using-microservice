@@ -4,6 +4,7 @@ namespace Upload\FileUpload;
 
 use App\Enums\CacheEnum;
 use App\Enums\MessageEnum;
+use App\Models\File;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -42,17 +43,39 @@ class FileUpload
 
             $this->storeUserFileTranscription->handle($userId, $file->getKey(), $transcription->getKey());
 
-            $this->appendCache->handle(CacheEnum::EMAIL->key(), [
-                'type' => MessageEnum::TRANSCRIPTION_INFO->type(),
-                'user_id' => $userId,
-                'to' => $user->email,
-                'routing_key' => MessageEnum::TRANSCRIPTION_INFO->routingKey(),
-                'email_data' => [
-                    'file_name' => basename($file->path)
-                ]
-            ]);
+            $this->addDataToTranscriptionInfoEmailInCache($user, $file);
+            $this->addDataToGenerateTranscriptionInCache($user, $file);
 
             MessagePublishEmailHandler::handle();
         });
+    }
+
+    private function addDataToTranscriptionInfoEmailInCache(User $user, File $file): void
+    {
+        $this->appendCache->handle(CacheEnum::EMAIL->key(), [
+            'channel' => 'email',
+            'type' => MessageEnum::TRANSCRIPTION_INFO->type(),
+            'user_id' => $user->getKey(),
+            'to' => $user->email,
+            'routing_key' => MessageEnum::TRANSCRIPTION_INFO->routingKey(),
+            'email_data' => [
+                'file_name' => basename($file->path)
+            ]
+        ]);
+    }
+
+    private function addDataToGenerateTranscriptionInCache(User $user, File $file): void
+    {
+        $this->appendCache->handle(CacheEnum::EMAIL->key(), [
+            'channel' => 'transcription',
+            'type' => MessageEnum::TRANSCRIPTION_GENERATE->type(),
+            'user_id' => $user->getKey(),
+            'to' => $user->email,
+            'routing_key' => MessageEnum::TRANSCRIPTION_GENERATE->routingKey(),
+            'transcription_data' => [
+                'file_path' => $file->path,
+                //TODO:: implement language selector
+            ]
+        ]);
     }
 }

@@ -6,7 +6,7 @@ use Closure;
 
 interface IMessaging
 {
-    public function channel(string $channel = 'default'): self;
+    public function channel(string $channel = 'upload'): self;
 
     public function publish(string $message, string $routingKey = ''): void;
 

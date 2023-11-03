@@ -25,7 +25,7 @@ class RabbitMQ extends AbstractMessaging implements IMessaging
         $this->consume = new Consume($this->connection);
     }
 
-    public function channel(string $channel = 'default'): IMessaging
+    public function channel(string $channel = 'upload'): IMessaging
     {
         $this->channel = $channel;
 
