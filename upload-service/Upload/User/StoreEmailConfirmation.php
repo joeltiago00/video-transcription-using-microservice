@@ -24,6 +24,7 @@ class StoreEmailConfirmation
         $emailConfirmationToken = $this->emailConfirmationTokenRepository->store($userId);
 
         $this->appendCache->handle(CacheEnum::EMAIL->key(), [
+            'channel' => 'email',
             'type' => MessageEnum::STORE_USER_EMAIL_CONFIRMATION->type(),
             'user_id' => $userId,
             'to' => $user->email,

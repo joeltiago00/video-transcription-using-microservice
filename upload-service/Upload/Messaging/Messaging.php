@@ -11,7 +11,7 @@ abstract class Messaging implements IMessagingFake
     public const FACADE_ACCESSOR = 'Messaging';
 
 
-    public const DEFAULT_CHANNEL = 'default';
+    public const DEFAULT_CHANNEL = 'upload';
 
     public static function fake(): void
     {
