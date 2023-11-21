@@ -12,7 +12,7 @@ chmod +x setup.sh
 
 ###  Pre Commit Script
 
-To make first enable run:
+To make first enable run: 
 ```
 cd src && \
 cp ./pre-commit.disable ./.git/hooks/pre-commit && \
