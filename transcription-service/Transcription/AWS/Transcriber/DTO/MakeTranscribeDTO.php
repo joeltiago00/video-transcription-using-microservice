@@ -1,6 +1,6 @@
 <?php
 
-namespace Transcription\AWS\Transcribe\DTO;
+namespace Transcription\AWS\Transcriber\DTO;
 
 class MakeTranscribeDTO
 {

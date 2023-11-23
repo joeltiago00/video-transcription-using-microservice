@@ -1,13 +1,11 @@
 <?php
 
-namespace Transcription\AWS\Transcribe;
+namespace Transcription\AWS\Transcriber;
 
+use Aws\Result;
 use Aws\TranscribeService\TranscribeServiceClient;
-use Closure;
-use Illuminate\Support\Str;
-use Transcription\AWS\Transcribe\DTO\MakeTranscribeDTO;
 
-class TranscribeClient
+class TranscriberClient
 {
     private TranscribeServiceClient $client;
 
@@ -27,25 +25,23 @@ class TranscribeClient
         ]);
     }
 
-    public function make(
+    public function startTranscription(
         string $urlFile,
-        string $languageCode = 'pt-BR',
-        string $transcriptionKey = '',
-        ?Closure $callback = null
-    )
+        string $transcriptionKey,
+        bool   $identifyMultipleLanguages = true
+    ): Result
     {
-        $key = !empty($transcriptionKey) ? $transcriptionKey : Str::uuid()->toString();
-
-        $response = $this->client->startTranscriptionJob([
-            'LanguageCode' => $languageCode,
+        return $this->client->startTranscriptionJob([
             'Media' => [
                 'MediaFileUri' => $urlFile,
             ],
-            'TranscriptionJobName' => $key,
+            'IdentifyMultipleLanguages' => $identifyMultipleLanguages,
+            'TranscriptionJobName' => $transcriptionKey,
         ]);
+    }
 
-        if (is_callable($callback)) {
-            $responseCallback = $callback($key);
-        }
+    public function getTranscription(string $transcriptionKey): Result
+    {
+        return $this->client->getTranscriptionJob(['TranscriptionJobName' => $transcriptionKey]);
     }
 }

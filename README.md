@@ -14,17 +14,16 @@ chmod +x setup.sh
 
 To make first enable run: 
 ```
-cd src && \
-cp ./pre-commit.disable ./.git/hooks/pre-commit && \
+cp ./pre-commit-disabled ./.git/hooks/pre-commit && \
 chmod +x .git/hooks/pre-commit
 ```
-
+[pre-commit](.git%2Fhooks%2Fpre-commit)
 To disable pre commit run:
 ```
-mv ./.git/hooks/pre-commit ../.git/hooks/pre-commit-disable
+mv ./.git/hooks/pre-commit ../.git/hooks/pre-commit-disabled
 ```
 
 To enable again run:
 ```
-mv ./.git/hooks/pre-commit-disable ./.git/hooks/pre-commit
+mv ./.git/hooks/pre-commit-disabled ./.git/hooks/pre-commit
 ```

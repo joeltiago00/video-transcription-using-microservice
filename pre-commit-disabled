@@ -62,7 +62,7 @@ done
 #------------------------
 if [ "$FILES" != "" ]; then
     echo -e "\033[1;33m"Running PHP CodeSniffer..."\033[0m"
-    src/vendor/bin/phpcs --standard=src/phpcs.xml $FILES
+    transcription_service/vendor/bin/phpcs --standard=transcription_service/phpcs.xml $FILES
 
     if [ $? != 0 ]; then
         # Allows the user to enter a new entry on the keyboard (STDIN)
@@ -73,7 +73,7 @@ if [ "$FILES" != "" ]; then
         case ${choice:0:1} in
         y | Y)
             echo -e "\033[1;33m"Running PHP CodeBeautifier..."\033[0m"
-            src/vendor/bin/phpcbf $FILES
+            transcription_service/vendor/bin/phpcbf $FILES
             echo -e "\033[0;32m"Done! Check for errors that cannot be fixed automatically and add the new changes to the files to be committed."\033[0m"
 
             exit 1
@@ -92,7 +92,7 @@ fi
 if [ "$MDFILES" != "" ]; then
     IGNORE='*RouteServiceProvider*,*/Kernel*,*Enum.php'
     echo -e "\033[1;33m"Running PHP Mess Detector..."\033[0m"
-    src/vendor/bin/phpmd ${MDFILES:1} text src/phpmd.xml --exclude "$IGNORE"
+    transcription_service/vendor/bin/phpmd ${MDFILES:1} text transcription_service/phpmd.xml --exclude "$IGNORE"
     if [ $? -ne 0 ]; then
         exit 1
     fi
